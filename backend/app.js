@@ -8,11 +8,13 @@ app.use(cors());
 app.use(express.json());
 
 import { authRouter } from "./routes/authRouter.js";
+import { userRouter } from "./routes/userRouter.js";
 import { verifyClient } from "./auth/authMiddleware.js";
 
 
 
 app.use("/", authRouter);
+app.use("/", userRouter);
 
 app.get("/", (req, res) => {
   res.json({ message: "Blog API running" });
