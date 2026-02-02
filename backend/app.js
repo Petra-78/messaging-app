@@ -9,20 +9,20 @@ app.use(express.json());
 
 import { authRouter } from "./routes/authRouter.js";
 import { userRouter } from "./routes/userRouter.js";
+import { chatRouter } from "./routes/chatRouter.js";
 import { verifyClient } from "./auth/authMiddleware.js";
-
-
 
 app.use("/", authRouter);
 app.use("/", userRouter);
+app.use("/", chatRouter);
 
 app.get("/", (req, res) => {
   res.json({ message: "Blog API running" });
 });
 
-app.get("/hi", verifyClient, (req,res)=>{
-  res.json({message:"hi!"})
-})
+app.get("/hi", verifyClient, (req, res) => {
+  res.json({ message: "hi!" });
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
