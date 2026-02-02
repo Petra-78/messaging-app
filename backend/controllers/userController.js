@@ -29,13 +29,27 @@ export async function getUser(req, res) {
       where: {
         id: userId,
       },
-      //   select: {
-      //     id: true,
-      //     username: true,
-      //     email: true,
-      //   },
     });
     res.json(user);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export async function updateUser(req, res) {
+  debugger;
+  const { username, email } = req.body;
+  const { userId } = req.user;
+
+  try {
+    const updatedUser = await prisma.user.update({
+      where: { id: userId },
+      data: {
+        username,
+        email,
+      },
+    });
+    res.json(updatedUser);
   } catch (err) {
     console.log(err);
   }
