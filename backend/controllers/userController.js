@@ -37,7 +37,6 @@ export async function getUser(req, res) {
 }
 
 export async function updateUser(req, res) {
-  debugger;
   const { username, email } = req.body;
   const { userId } = req.user;
 
@@ -51,6 +50,11 @@ export async function updateUser(req, res) {
     });
     res.json(updatedUser);
   } catch (err) {
+    if (err.code === "P2002") {
+      return res
+        .status(409)
+        .json({ message: "Username or email already taken" });
+    }
     console.log(err);
   }
 }
