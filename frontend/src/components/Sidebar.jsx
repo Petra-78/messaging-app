@@ -6,6 +6,7 @@ export default function Sidebar({ selectedUser, setSelectedUser }) {
   const [users, setUsers] = useState([]);
   const [error, setError] = useState(null);
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchUsers() {
@@ -27,6 +28,7 @@ export default function Sidebar({ selectedUser, setSelectedUser }) {
 
         const data = await res.json();
         setUsers(data);
+        setLoading(false);
       } catch (err) {
         console.error(err);
         setError(err.message);
@@ -44,32 +46,38 @@ export default function Sidebar({ selectedUser, setSelectedUser }) {
     <div>
       <h2>Users</h2>
 
-      {error && <p>{error}</p>}
-
       <input
         type="text"
         placeholder="Search users..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         style={{ marginBottom: "10px", padding: "5px", width: "100%" }}
+        disabled={loading}
       />
 
-      <ul>
-        {filteredUsers.length > 0 ? (
-          filteredUsers.map((u) => (
-            <button
-              key={u.id}
-              onClick={() =>
-                setSelectedUser({ id: u.id, username: u.username })
-              }
-            >
-              <li key={u.id}>{u.username}</li>
-            </button>
-          ))
-        ) : (
-          <li>No users found</li>
-        )}
-      </ul>
+      {loading && <p>Loading...</p>}
+
+      {!loading && error && <p>{error}</p>}
+
+      {!loading && !error && filteredUsers.length === 0 && (
+        <p>No users found</p>
+      )}
+
+      {!loading && !error && filteredUsers.length > 0 && (
+        <ul>
+          {filteredUsers.map((u) => (
+            <li key={u.id}>
+              <button
+                onClick={() =>
+                  setSelectedUser({ id: u.id, username: u.username })
+                }
+              >
+                {u.username}
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
