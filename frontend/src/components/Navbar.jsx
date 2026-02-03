@@ -17,15 +17,16 @@ export default function Navbar() {
           <h1>ChatApp</h1>
         </div>
         {user ? (
-          <div>{user.username}</div>
+          <>
+            <div>{user.username}</div>
+            <button onClick={handleLogout}>Logout</button>
+          </>
         ) : (
           <>
             <Link to="/login">Login</Link>
             <Link to="/signup">Sign up</Link>
           </>
         )}
-
-        <button onClick={handleLogout}>Logout</button>
       </div>
     </>
   );
