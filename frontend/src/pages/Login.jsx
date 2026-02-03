@@ -30,7 +30,7 @@ export default function Login() {
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error("Invalid email or password");
+        throw new Error(data.message);
       }
 
       login(data.token, data.user);
