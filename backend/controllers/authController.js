@@ -36,8 +36,6 @@ async function postLogin(req, res) {
   });
 }
 
-import bcrypt from "bcrypt";
-
 export async function postSignup(req, res) {
   try {
     const { email, username, password } = req.body;
