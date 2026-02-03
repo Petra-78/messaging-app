@@ -6,6 +6,7 @@ export function AuthProvider({ children }) {
   const [token, setToken] = useState(null);
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [authLoading, setAuthLoading] = useState(true);
 
   useEffect(() => {
     debugger;
@@ -17,6 +18,7 @@ export function AuthProvider({ children }) {
       setUser(JSON.parse(storedUser));
       setIsAuthenticated(true);
     }
+    setAuthLoading(false);
   }, []);
 
   const login = (newToken, userData) => {
@@ -38,7 +40,7 @@ export function AuthProvider({ children }) {
 
   return (
     <AuthContext.Provider
-      value={{ token, user, isAuthenticated, login, logout }}
+      value={{ token, user, isAuthenticated, authLoading, login, logout }}
     >
       {children}
     </AuthContext.Provider>
