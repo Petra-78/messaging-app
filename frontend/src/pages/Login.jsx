@@ -11,12 +11,13 @@ export default function Login() {
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
+    debugger;
     e.preventDefault();
     setError(null);
 
     try {
       const res = await fetch(
-        "https://blog-api-production-323f.up.railway.app/login",
+        "https://messaging-app-production-2362.up.railway.app/login",
         {
           method: "POST",
           headers: {
