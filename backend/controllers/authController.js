@@ -2,7 +2,7 @@ import { prisma } from "../lib/prisma.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-async function postLogin(req, res) {
+export async function postLogin(req, res) {
   const email = req.body.email;
   const password = req.body.password;
 
@@ -94,5 +94,3 @@ export async function postSignup(req, res) {
     return res.status(500).json({ message: "Internal server error" });
   }
 }
-
-export { postLogin, postSignup };
