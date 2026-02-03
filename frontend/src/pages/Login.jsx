@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { useAuth } from "../../context/authContext";
+import { useAuth } from "../context/authContext";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -26,11 +26,12 @@ export default function Login() {
         },
       );
 
+      const data = await res.json();
+
       if (!res.ok) {
-        throw new Error(res.message());
+        throw new Error("Invalid email or password");
       }
 
-      const data = await res.json();
       login(data.token, data.user);
 
       navigate("/");
@@ -41,15 +42,14 @@ export default function Login() {
   };
 
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.card}>
-        <h2 className={styles.title}>Login</h2>
+    <div>
+      <div>
+        <h2>Login</h2>
 
-        {error && <p className={styles.error}>{error}</p>}
+        {error && <p>{error}</p>}
 
-        <form className={styles.form} onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
           <input
-            className={styles.input}
             type="email"
             placeholder="Email"
             value={email}
@@ -58,7 +58,6 @@ export default function Login() {
           />
 
           <input
-            className={styles.input}
             type="password"
             placeholder="Password"
             value={password}
@@ -66,9 +65,7 @@ export default function Login() {
             required
           />
 
-          <button className={styles.button} type="submit">
-            Login
-          </button>
+          <button type="submit">Login</button>
         </form>
       </div>
     </div>
