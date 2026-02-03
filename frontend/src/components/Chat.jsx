@@ -5,14 +5,18 @@ export default function Chat({ selectedUser }) {
   const [messages, setMessages] = useState([]);
   const [content, setContent] = useState("");
   const { token } = useAuth();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (selectedUser) {
-      async function getMessages() {
+    if (!selectedUser || !token) return;
+
+    async function getMessages() {
+      setLoading(true);
+
+      try {
         const res = await fetch(
           `https://messaging-app-production-2362.up.railway.app/messages/${selectedUser.id}`,
           {
-            method: "GET",
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -22,16 +26,19 @@ export default function Chat({ selectedUser }) {
         const data = await res.json();
 
         if (!res.ok) {
-          throw new Error(data);
+          throw new Error(data.message || "Failed to load messages");
         }
 
-        console.log(data);
         setMessages(data);
-        return data;
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
       }
-      if (token) getMessages();
     }
-  }, [selectedUser]);
+
+    getMessages();
+  }, [selectedUser, token]);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -67,35 +74,37 @@ export default function Chat({ selectedUser }) {
     }
   }
 
+  if (!selectedUser) {
+    return <div>Select a user to chat</div>;
+  }
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
   return (
-    <>
-      {selectedUser ? (
-        <div>
-          <h2>{selectedUser.username}</h2>
+    <div>
+      <h2>{selectedUser.username}</h2>
 
-          {messages.length === 0 ? (
-            <div>No messages yet.</div>
-          ) : (
-            messages.map((m) => (
-              <div key={m.id}>
-                <p>{m.content}</p>
-              </div>
-            ))
-          )}
-
-          <form onSubmit={handleSubmit}>
-            <input
-              type="text"
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              placeholder="Send message..."
-            />
-            <button type="submit">Send</button>
-          </form>
-        </div>
+      {messages.length === 0 ? (
+        <div>No messages yet.</div>
       ) : (
-        <div>Select a user to chat</div>
+        messages.map((m) => (
+          <div key={m.id}>
+            <p>{m.content}</p>
+          </div>
+        ))
       )}
-    </>
+
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          placeholder="Send message..."
+        />
+        <button type="submit">Send</button>
+      </form>
+    </div>
   );
 }
