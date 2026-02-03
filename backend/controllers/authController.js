@@ -22,13 +22,9 @@ async function postLogin(req, res) {
     return res.status(401).json({ message: "Invalid password" });
   }
 
-  const token = jwt.sign(
-    { userId: user.id, },
-    process.env.JWT_SECRET,
-    {
-      expiresIn: "7days",
-    }
-  );
+  const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
+    expiresIn: "7days",
+  });
 
   res.json({
     token,
@@ -40,41 +36,65 @@ async function postLogin(req, res) {
   });
 }
 
+import bcrypt from "bcrypt";
 
-async function postSignup(req, res) {
-  const email = req.body.email;
-  const password = await bcrypt.hash(req.body.password, 10);
-  const username = req.body.username;
+export async function postSignup(req, res) {
+  try {
+    const { email, username, password } = req.body;
 
-  const user = await prisma.user.findUnique({
-    where: {
-      email: email,
-    },
-  });
+    if (!email || !username || !password) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
 
-  const name = await prisma.user.findUnique({
-    where: {
-      username: username,
-    },
-  });
+    if (username.trim().length < 3) {
+      return res
+        .status(400)
+        .json({ message: "Username must be at least 3 characters long" });
+    }
 
-  if (name) {
-    return res.status(400).json({ message: "username is taken" });
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ message: "Invalid email address" });
+    }
+
+    const passwordRegex =
+      /^(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}[\]:;<>,.?~\\/-]).{6,}$/;
+
+    if (!passwordRegex.test(password)) {
+      return res.status(400).json({
+        message:
+          "Password must be at least 6 characters long and include one uppercase letter and one special character",
+      });
+    }
+
+    const existingUser = await prisma.user.findFirst({
+      where: {
+        OR: [{ email }, { username }],
+      },
+    });
+
+    if (existingUser) {
+      if (existingUser.email === email) {
+        return res.status(400).json({ message: "Email already in use" });
+      }
+      return res.status(400).json({ message: "Username is taken" });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    await prisma.user.create({
+      data: {
+        email,
+        username,
+        password: hashedPassword,
+      },
+    });
+
+    return res.status(201).json({ message: "User created successfully" });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "Internal server error" });
   }
-
-  if (user) {
-    return res.status(400).json({ message: "email already in use" });
-  }
-
-  await prisma.user.create({
-    data: {
-      email,
-      username,
-      password,
-    },
-  });
-
-  return res.json({ message: "User created successfully" });
 }
 
 export { postLogin, postSignup };
