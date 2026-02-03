@@ -1,7 +1,6 @@
 import { prisma } from "../lib/prisma.js";
 
 export const getMessages = async (req, res) => {
-  debugger;
   const { userId } = req.user;
   const otherUserId = Number(req.params.otherUserId);
 
