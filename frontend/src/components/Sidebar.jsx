@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../context/authContext";
 
-export default function Sidebar() {
+export default function Sidebar({ selectedUser, setSelectedUser }) {
   const { token } = useAuth();
   const [users, setUsers] = useState([]);
   const [error, setError] = useState(null);
@@ -56,7 +56,16 @@ export default function Sidebar() {
 
       <ul>
         {filteredUsers.length > 0 ? (
-          filteredUsers.map((u) => <li key={u.id}>{u.username}</li>)
+          filteredUsers.map((u) => (
+            <button
+              key={u.id}
+              onClick={() =>
+                setSelectedUser({ id: u.id, username: u.username })
+              }
+            >
+              <li key={u.id}>{u.username}</li>
+            </button>
+          ))
         ) : (
           <li>No users found</li>
         )}
