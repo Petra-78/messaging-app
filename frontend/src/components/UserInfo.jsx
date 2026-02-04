@@ -100,6 +100,22 @@ export default function UserInfo({ onClose }) {
           <button type="button" onClick={handleEditToggle} disabled={saving}>
             {saving ? "Saving..." : disabled ? "Edit" : "Save"}
           </button>
+          {!disabled && (
+            <button
+              type="button"
+              onClick={() => {
+                if (originalUser) {
+                  setUsername(originalUser.username);
+                  setEmail(originalUser.email);
+                }
+                setError(null);
+                setDisabled(true);
+              }}
+              disabled={saving}
+            >
+              Cancel
+            </button>
+          )}
 
           <button type="button" onClick={onClose}>
             Close
