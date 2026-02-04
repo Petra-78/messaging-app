@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useAuth } from "../context/authContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPaperPlane } from "@fortawesome/free-regular-svg-icons";
 
 export default function Chat({ selectedUser }) {
   const [messages, setMessages] = useState([]);
@@ -194,7 +196,7 @@ export default function Chat({ selectedUser }) {
           type="submit"
           className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
         >
-          Send
+          <FontAwesomeIcon icon={faPaperPlane} />
         </button>
       </form>
     </div>
