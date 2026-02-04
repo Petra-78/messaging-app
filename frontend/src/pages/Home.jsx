@@ -22,12 +22,19 @@ export default function Home() {
     <>
       {showUserInfo && <UserInfo onClose={() => setShowUserInfo(false)} />}
       {user && (
-        <div>
-          <Sidebar
-            selectedUser={selectedUser}
-            setSelectedUser={setSelectedUser}
-          />
-          <Chat selectedUser={selectedUser} />
+        <div className="flex flex-1 bg-gray-100">
+          <div className="w-full max-w-325 mx-auto flex gap-8 p-10">
+            <div className="flex-none">
+              <Sidebar
+                selectedUser={selectedUser}
+                setSelectedUser={setSelectedUser}
+              />
+            </div>
+
+            <div className="flex-1 flex justify-center">
+              <Chat selectedUser={selectedUser} />
+            </div>
+          </div>
         </div>
       )}
     </>
