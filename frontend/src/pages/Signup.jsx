@@ -71,56 +71,96 @@ export default function Signup() {
   };
 
   return (
-    <div>
-      <div>
-        <h2>Sign Up</h2>
+    <div className="flex-1 flex items-center justify-center bg-gray-100 p-4">
+      <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-8">
+        <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
+          Sign Up
+        </h2>
 
-        {error && <p>{error}</p>}
+        {error && (
+          <p className="text-red-500 text-sm mb-4 text-left">{error}</p>
+        )}
 
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label htmlFor="username">Username</label>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <div className="flex flex-col">
+            <label
+              htmlFor="username"
+              className="mb-1 text-gray-700 font-medium text-left"
+            >
+              Username
+            </label>
             <input
               type="text"
               id="username"
               value={username}
-              onChange={(e) => {
-                setUsername(e.target.value);
-              }}
+              onChange={(e) => setUsername(e.target.value)}
               onBlur={(e) => setUsernameError(validateUsername(e.target.value))}
               required
+              className={`px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
+                usernameError
+                  ? "border-red-500 focus:ring-red-500"
+                  : "border-gray-300 focus:ring-blue-500"
+              }`}
             />
-            {usernameError && <p className="error">{usernameError}</p>}
+            {usernameError && (
+              <p className="text-red-500 text-sm mt-1 text-left">
+                {usernameError}
+              </p>
+            )}
           </div>
 
-          <div>
-            <label htmlFor="email">Email</label>
+          <div className="flex flex-col">
+            <label
+              htmlFor="email"
+              className="mb-1 text-gray-700 font-medium text-left"
+            >
+              Email
+            </label>
             <input
               type="email"
               id="email"
               value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
+              onChange={(e) => setEmail(e.target.value)}
               onBlur={(e) => setEmailError(validateEmail(e.target.value))}
               required
+              className={`px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
+                emailError
+                  ? "border-red-500 focus:ring-red-500"
+                  : "border-gray-300 focus:ring-blue-500"
+              }`}
             />
-            {emailError && <p className="error">{emailError}</p>}
+            {emailError && (
+              <p className="text-red-500 text-sm mt-1 text-left">
+                {emailError}
+              </p>
+            )}
           </div>
 
-          <div>
-            <label htmlFor="password">Password</label>
+          <div className="flex flex-col">
+            <label
+              htmlFor="password"
+              className="mb-1 text-gray-700 font-medium text-left"
+            >
+              Password
+            </label>
             <input
               type="password"
               id="password"
               value={password}
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
+              onChange={(e) => setPassword(e.target.value)}
               onBlur={(e) => setPasswordError(validatePassword(e.target.value))}
               required
+              className={`px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
+                passwordError
+                  ? "border-red-500 focus:ring-red-500 "
+                  : "border-gray-300 focus:ring-blue-500"
+              }`}
             />
-            {passwordError && <p className="error">{passwordError}</p>}
+            {passwordError && (
+              <p className="text-red-500 text-sm mt-1 text left">
+                {passwordError}
+              </p>
+            )}
           </div>
 
           <button
@@ -133,14 +173,27 @@ export default function Signup() {
               !email ||
               !password
             }
+            className={`w-full py-2 rounded-lg font-semibold text-white transition ${
+              usernameError ||
+              emailError ||
+              passwordError ||
+              !username ||
+              !email ||
+              !password
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-blue-600 hover:bg-blue-700"
+            }`}
           >
             Sign Up
           </button>
-
-          <p>
-            Already have an account? <Link to={"/login"}>Login</Link>
-          </p>
         </form>
+
+        <p className="text-sm text-gray-600 mt-4 text-center">
+          Already have an account?{" "}
+          <Link to={"/login"} className="text-blue-600 hover:underline">
+            Login
+          </Link>
+        </p>
       </div>
     </div>
   );
