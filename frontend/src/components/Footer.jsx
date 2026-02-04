@@ -6,7 +6,7 @@ export default function Footer() {
     <footer className="bg-gray-100 py-4 mt-8">
       <div className="container mx-auto flex items-center justify-center gap-2 text-gray-700">
         <a
-          href="https://github.com/Petra-78"
+          href="https://github.com/Petra-78/messaging-app"
           target="_blank"
           rel="noopener noreferrer"
           className="flex hover:text-gray-900 transition-colors"
