@@ -1,9 +1,15 @@
+import { useState } from "react";
 import { useAuth } from "../context/authContext";
 import { useNavigate } from "react-router";
 import { Link } from "react-router";
 
-export default function Navbar({ selectedUser, setSelectedUser }) {
+export default function Navbar({
+  setSelectedUser,
+  setShowUserInfo,
+  showUserInfo,
+}) {
   const { logout, user } = useAuth();
+
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -20,7 +26,11 @@ export default function Navbar({ selectedUser, setSelectedUser }) {
         </div>
         {user ? (
           <>
-            <div>{user.username}</div>
+            <Link onClick={() => setShowUserInfo(!showUserInfo)}>
+              {" "}
+              <div>{user.username}</div>
+            </Link>
+
             <button onClick={handleLogout}>Logout</button>
           </>
         ) : (
