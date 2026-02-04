@@ -1,15 +1,14 @@
-import { useEffect, useState } from "react";
 import Sidebar from "../components/Sidebar";
 import Chat from "../components/Chat";
 import { useAuth } from "../context/authContext";
-import { Navigate } from "react-router-dom";
-import Navbar from "../components/Navbar";
+import { Navigate, useOutletContext } from "react-router-dom";
 import UserInfo from "../components/UserInfo";
 
 export default function Home() {
-  const [selectedUser, setSelectedUser] = useState(null);
-  const [showUserInfo, setShowUserInfo] = useState(false);
   const { user, authLoading } = useAuth();
+
+  const { selectedUser, setSelectedUser, showUserInfo, setShowUserInfo } =
+    useOutletContext();
 
   if (authLoading) {
     return <div>Loading...</div>;
@@ -21,11 +20,6 @@ export default function Home() {
 
   return (
     <>
-      <Navbar
-        setSelectedUser={setSelectedUser}
-        setShowUserInfo={setShowUserInfo}
-        showUserInfo={showUserInfo}
-      />
       {showUserInfo && <UserInfo onClose={() => setShowUserInfo(false)} />}
       {user && (
         <div>
