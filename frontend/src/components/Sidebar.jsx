@@ -43,34 +43,35 @@ export default function Sidebar({ selectedUser, setSelectedUser }) {
   );
 
   return (
-    <div>
-      <h2>Users</h2>
+    <div className="w-64 bg-white shadow-md rounded-lg p-4 flex flex-col">
+      <h2 className="text-xl font-semibold mb-4 text-gray-800">Users</h2>
 
       <input
         type="text"
         placeholder="Search users..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        style={{ marginBottom: "10px", padding: "5px", width: "100%" }}
         disabled={loading}
+        className="mb-4 px-3 py-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100"
       />
 
-      {loading && <p>Loading...</p>}
-
-      {!loading && error && <p>{error}</p>}
-
+      {loading && <p className="text-gray-500 text-sm mb-2">Loading...</p>}
+      {!loading && error && (
+        <p className="text-red-500 text-sm mb-2">{error}</p>
+      )}
       {!loading && !error && filteredUsers.length === 0 && (
-        <p>No users found</p>
+        <p className="text-gray-500 text-sm mb-2">No users found</p>
       )}
 
       {!loading && !error && filteredUsers.length > 0 && (
-        <ul>
+        <ul className="flex flex-col gap-2 overflow-y-auto max-h-80">
           {filteredUsers.map((u) => (
             <li key={u.id}>
               <button
                 onClick={() =>
                   setSelectedUser({ id: u.id, username: u.username })
                 }
+                className="w-full text-left px-3 py-2 rounded-lg hover:bg-blue-100 transition-colors"
               >
                 {u.username}
               </button>
