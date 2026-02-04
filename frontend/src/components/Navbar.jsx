@@ -2,7 +2,7 @@ import { useAuth } from "../context/authContext";
 import { useNavigate } from "react-router";
 import { Link } from "react-router";
 
-export default function Navbar() {
+export default function Navbar({ selectedUser, setSelectedUser }) {
   const { logout, user } = useAuth();
   const navigate = useNavigate();
 
@@ -14,7 +14,9 @@ export default function Navbar() {
     <>
       <div>
         <div>
-          <h1>ChatApp</h1>
+          <Link to={"/"} onClick={() => setSelectedUser(null)}>
+            <h1>ChatApp</h1>
+          </Link>
         </div>
         {user ? (
           <>
