@@ -3,6 +3,7 @@ import Sidebar from "../components/Sidebar";
 import Chat from "../components/Chat";
 import { useAuth } from "../context/authContext";
 import { Navigate } from "react-router-dom";
+import Navbar from "../components/Navbar";
 
 export default function Home() {
   const [selectedUser, setSelectedUser] = useState(null);
@@ -20,6 +21,7 @@ export default function Home() {
 
   return (
     <>
+      <Navbar selectedUser={selectedUser} setSelectedUser={setSelectedUser} />
       {user && (
         <div>
           <Sidebar
