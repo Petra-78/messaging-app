@@ -7,7 +7,7 @@ export default function Chat({ selectedUser }) {
   const { token, user } = useAuth();
   const [loading, setLoading] = useState(true);
 
-  //   const messagesEndRef = useRef(null);
+  const messagesEndRef = useRef(null);
 
   useEffect(() => {
     if (!selectedUser || !token) return;
@@ -42,9 +42,9 @@ export default function Chat({ selectedUser }) {
     getMessages();
   }, [selectedUser, token]);
 
-  //   useEffect(() => {
-  //     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  //   }, [messages]);
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -80,6 +80,32 @@ export default function Chat({ selectedUser }) {
     }
   }
 
+  function formatDate(timestamp) {
+    const msgDate = new Date(timestamp);
+    const now = new Date();
+
+    if (msgDate.toDateString() === now.toDateString()) return "Today";
+
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    if (msgDate.toDateString() === yesterday.toDateString()) return "Yesterday";
+
+    if (msgDate.getFullYear() === now.getFullYear()) {
+      return msgDate.toLocaleDateString("en-US", {
+        weekday: "short",
+        month: "short",
+        day: "numeric",
+      });
+    } else {
+      return msgDate.toLocaleDateString("en-US", {
+        weekday: "short",
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      });
+    }
+  }
+
   if (!selectedUser) {
     return <div>Select a user to chat</div>;
   }
@@ -102,24 +128,46 @@ export default function Chat({ selectedUser }) {
             No messages yet.
           </div>
         ) : (
-          messages.map((m) => (
-            <div
-              key={m.id}
-              className={`flex ${
-                m.senderId === user.id ? "justify-end" : "justify-start"
-              }`}
-            >
-              <div
-                className={`p-2 rounded-lg max-w-xs wrap-break-word ${
-                  m.senderId === user.id
-                    ? "bg-blue-500 text-white"
-                    : "bg-gray-200 text-gray-800"
-                }`}
-              >
-                <p className="text-sm">{m.content}</p>
+          messages.map((m, i) => {
+            const prevMsg = messages[i - 1];
+            const showDate =
+              !prevMsg ||
+              new Date(prevMsg.createdAt).toDateString() !==
+                new Date(m.createdAt).toDateString();
+
+            return (
+              <div key={m.id} className="flex flex-col gap-1">
+                {showDate && (
+                  <div className="text-center text-gray-400 my-2 text-sm">
+                    {formatDate(m.createdAt)}
+                  </div>
+                )}
+                <div
+                  key={m.id}
+                  className={`flex flex-col ${
+                    m.senderId === user.id ? "items-end" : "items-start"
+                  }`}
+                >
+                  <div
+                    className={`p-2 rounded-lg max-w-xs wrap-break-word ${
+                      m.senderId === user.id
+                        ? "bg-blue-500 text-white"
+                        : "bg-gray-200 text-gray-800"
+                    }`}
+                  >
+                    <p className="text-sm">{m.content}</p>
+                  </div>
+
+                  <p className="text-xs text-gray-500 mt-1">
+                    {new Date(m.createdAt).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </p>
+                </div>
               </div>
-            </div>
-          ))
+            );
+          })
         )}
       </div>
 
