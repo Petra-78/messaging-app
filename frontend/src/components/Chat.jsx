@@ -107,15 +107,23 @@ export default function Chat({ selectedUser }) {
   }
 
   if (!selectedUser) {
-    return <div>Select a user to chat</div>;
+    return (
+      <div className="flex flex-1 items-center justify-center text-center bg-gray-50 rounded-lg shadow-md p-4 text-gray-600 text-lg">
+        Select a user to chat
+      </div>
+    );
   }
 
   if (loading) {
-    return <p>Loading...</p>;
+    return (
+      <div className="flex flex-1 items-center justify-center text-center bg-gray-50 rounded-lg shadow-md p-4 text-gray-500 text-lg">
+        Loading...
+      </div>
+    );
   }
 
   return (
-    <div className="flex flex-col flex-1 bg-gray-50 rounded-lg shadow-md p-4">
+    <div className="flex flex-col flex-1 bg-gray-50 rounded-lg shadow-md p-4 h-full">
       <div className="border-b border-gray-300 pb-2 mb-4">
         <h2 className="text-lg font-semibold text-gray-800">
           {selectedUser.username}

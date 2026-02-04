@@ -9,7 +9,7 @@ function App() {
   const [showUserInfo, setShowUserInfo] = useState(false);
   return (
     <>
-      <div>
+      <div className="flex flex-col h-screen">
         <Navbar
           setSelectedUser={setSelectedUser}
           setShowUserInfo={setShowUserInfo}
