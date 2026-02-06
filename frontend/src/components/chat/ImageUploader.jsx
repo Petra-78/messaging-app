@@ -14,9 +14,11 @@ export default function ImagePicker({ onSelect }) {
       <button
         type="button"
         onClick={() => inputRef.current.click()}
-        className="absolute left-3 text-gray-500 hover:text-blue-600"
+        className="p-1 sm:p-3 text-xl text-zinc-600 hover:text-blue-700 transition-colors duration-200 relative rounded-full cursor-pointer"
+        title="Upload image"
+        aria-label="Upload image"
       >
-        <FontAwesomeIcon icon={faImage} size="lg" />
+        <FontAwesomeIcon icon={faImage} />
       </button>
 
       <input
@@ -27,6 +29,7 @@ export default function ImagePicker({ onSelect }) {
         onChange={(e) => {
           if (e.target.files[0]) {
             onSelect(e.target.files[0]);
+            e.target.value = "";
           }
         }}
       />
