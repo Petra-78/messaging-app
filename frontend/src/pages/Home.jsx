@@ -1,5 +1,5 @@
 import Sidebar from "../components/Sidebar";
-import Chat from "../components/Chat";
+import Chat from "../components/chat/Chat";
 import { useAuth } from "../context/authContext";
 import { Navigate, useOutletContext } from "react-router-dom";
 import UserInfo from "../components/UserInfo";
@@ -22,8 +22,8 @@ export default function Home() {
     <>
       {showUserInfo && <UserInfo onClose={() => setShowUserInfo(false)} />}
       {user && (
-        <div className="flex flex-1 bg-gray-100">
-          <div className="w-full max-w-325 mx-auto flex gap-8 p-10">
+        <div className="flex flex-1 min-h-0 bg-gray-100 overflow-hidden">
+          <div className="w-full max-w-325 mx-auto flex gap-8 p-6 min-h-0">
             <div className="flex-none">
               <Sidebar
                 selectedUser={selectedUser}
@@ -31,7 +31,7 @@ export default function Home() {
               />
             </div>
 
-            <div className="flex-1 flex justify-center">
+            <div className="flex-1">
               <Chat selectedUser={selectedUser} />
             </div>
           </div>
