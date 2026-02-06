@@ -44,6 +44,7 @@ model ChatUser {
 model Message {
   id        Int      @id @default(autoincrement())
   content   String
+  imageUrl  String?
   createdAt DateTime @default(now())
 
   sender   User @relation(fields: [senderId], references: [id])
