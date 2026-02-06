@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useAuth } from "../context/authContext";
 import { useNavigate } from "react-router";
 import { Link } from "react-router";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 
 export default function Navbar({
   setSelectedUser,
@@ -18,23 +20,29 @@ export default function Navbar({
   };
   return (
     <header className="bg-white shadow-md px-6 py-4 flex items-center justify-between">
-      <div>
+      <div className="flex gap-2">
+        <img className="h-8 w-8" src="/earth.png" alt="Earth logo" />
         <Link
           to="/"
           onClick={() => setSelectedUser(null)}
           className="text-2xl font-bold text-blue-600 hover:text-blue-800 transition-colors"
         >
-          ChatApp
+          World Talk
         </Link>
       </div>
 
-      <div className="flex items-center gap-4">
+      <div className="flex gap-5">
         {user ? (
           <>
             <button
               onClick={() => setShowUserInfo(!showUserInfo)}
-              className="px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition"
+              className="flex items-center gap-4 px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition"
             >
+              <img
+                className="w-8 h-8 object-cover rounded-full"
+                src={user.avatarUrl || "/placeholder.png"}
+                alt="User profile"
+              />
               {user.username}
             </button>
 
@@ -42,7 +50,7 @@ export default function Navbar({
               onClick={handleLogout}
               className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
             >
-              Logout
+              <FontAwesomeIcon icon={faArrowRightFromBracket} />
             </button>
           </>
         ) : (
