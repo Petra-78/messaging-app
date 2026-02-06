@@ -14,6 +14,7 @@ export async function getUsers(req, res) {
       select: {
         id: true,
         username: true,
+        avatarUrl: true,
       },
     });
     res.json(users);

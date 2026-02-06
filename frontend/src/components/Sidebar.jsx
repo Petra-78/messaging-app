@@ -10,6 +10,7 @@ export default function Sidebar({ selectedUser, setSelectedUser }) {
 
   useEffect(() => {
     async function fetchUsers() {
+      debugger;
       try {
         const res = await fetch(
           "https://messaging-app-production-2362.up.railway.app/users",
