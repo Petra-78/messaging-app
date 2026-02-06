@@ -87,6 +87,7 @@ export default function UserInfo({ onClose }) {
         <form
           onSubmit={(e) => e.preventDefault()}
           className="flex flex-col gap-4"
+          enctype="multipart/form-data"
         >
           <div className="flex flex-col">
             <label
