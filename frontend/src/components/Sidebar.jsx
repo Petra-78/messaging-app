@@ -81,7 +81,7 @@ export default function Sidebar({ selectedUser, setSelectedUser }) {
                 <img
                   src={u.avatarUrl || "/placeholder.png"}
                   alt="User profile"
-                  className="h-8 w-8"
+                  className="h-8 w-8 rounded-full object-cover"
                 />
                 {u.username}
               </button>
