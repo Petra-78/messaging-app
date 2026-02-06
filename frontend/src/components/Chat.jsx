@@ -10,13 +10,11 @@ export default function Chat({ selectedUser }) {
   const [loading, setLoading] = useState(true);
 
   const messagesEndRef = useRef(null);
-
   useEffect(() => {
     if (!selectedUser || !token) return;
 
     async function getMessages() {
       setLoading(true);
-      debugger;
       try {
         const res = await fetch(
           `https://messaging-app-production-2362.up.railway.app/messages/${selectedUser.id}`,
@@ -126,7 +124,12 @@ export default function Chat({ selectedUser }) {
 
   return (
     <div className="flex flex-col flex-1 bg-gray-50 rounded-lg shadow-md p-4 h-full">
-      <div className="border-b border-gray-300 pb-2 mb-4">
+      <div className=" flex justify-center items-center gap-4 border-b border-gray-300 pb-2 mb-4">
+        <img
+          className="round-full w-8 h-8"
+          src={selectedUser.avatarUrl || "/placeholder.png"}
+          alt=""
+        />
         <h2 className="text-lg font-semibold text-gray-800">
           {selectedUser.username}
         </h2>

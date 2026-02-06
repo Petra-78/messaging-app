@@ -66,13 +66,22 @@ export default function Sidebar({ selectedUser, setSelectedUser }) {
       {!loading && !error && filteredUsers.length > 0 && (
         <ul className="flex flex-col gap-2 overflow-y-auto max-h-80">
           {filteredUsers.map((u) => (
-            <li key={u.id}>
+            <li key={u.id} className="flex">
               <button
                 onClick={() =>
-                  setSelectedUser({ id: u.id, username: u.username })
+                  setSelectedUser({
+                    id: u.id,
+                    username: u.username,
+                    avatarUrl: u.avatarUrl,
+                  })
                 }
-                className="w-full text-left px-3 py-2 rounded-lg hover:bg-blue-100 transition-colors"
+                className="flex items-center justify-baseline gap-4 w-full text-left px-3 py-2 rounded-lg hover:bg-blue-100 transition-colors"
               >
+                <img
+                  src={u.avatarUrl || "/placeholder.png"}
+                  alt="User profile"
+                  className="h-8 w-8"
+                />
                 {u.username}
               </button>
             </li>
