@@ -1,4 +1,5 @@
 import { prisma } from "../lib/prisma.js";
+import cloudinary from "../config/cloudinary.js";
 
 export const getMessages = async (req, res) => {
   const { userId } = req.user;
@@ -55,7 +56,7 @@ export async function postMessage(req, res) {
         chatUser: {
           every: {
             userId: {
-              in: [userId, receiverId],
+              in: [userId, Number(receiverId)],
             },
           },
         },
@@ -66,17 +67,32 @@ export async function postMessage(req, res) {
       chat = await prisma.chat.create({
         data: {
           chatUser: {
-            create: [{ userId: userId }, { userId: receiverId }],
+            create: [{ userId }, { userId: receiverId }],
           },
         },
       });
     }
 
+    let imageUrl = null;
+    if (req.file) {
+      imageUrl = await new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+          { folder: "chat_images" },
+          (error, result) => {
+            if (error) return reject(error);
+            resolve(result.secure_url);
+          },
+        );
+        stream.end(req.file.buffer);
+      });
+    }
+
     const message = await prisma.message.create({
       data: {
-        content,
+        content: content || "",
         senderId: userId,
         chatId: chat.id,
+        imageUrl,
       },
       include: {
         sender: {
