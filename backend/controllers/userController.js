@@ -1,4 +1,5 @@
 import { prisma } from "../lib/prisma.js";
+import cloudinary from "../config/cloudinary.js";
 
 export async function getUsers(req, res) {
   const { userId } = req.user;
@@ -60,8 +61,9 @@ export async function updateUser(req, res) {
 }
 
 export async function uploadAvatar(req, res) {
+  debugger;
   try {
-    const userId = req.user.id;
+    const { userId } = req.user;
 
     if (!req.file) {
       return res.status(400).json({ message: "No file uploaded" });

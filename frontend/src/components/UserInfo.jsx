@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../context/authContext";
+import { Avatar } from "./Avatar";
 
 export default function UserInfo({ onClose }) {
   const { user, token, setUser } = useAuth();
@@ -18,6 +19,7 @@ export default function UserInfo({ onClose }) {
       setOriginalUser({
         username: user.username,
         email: user.email,
+        avatarUrl: user.avatarUrl,
       });
     }
   }, [user]);
@@ -27,7 +29,6 @@ export default function UserInfo({ onClose }) {
     setSaving(true);
 
     try {
-      debugger;
       const res = await fetch(
         "https://messaging-app-production-2362.up.railway.app/user",
         {
@@ -84,10 +85,11 @@ export default function UserInfo({ onClose }) {
       >
         <h1 className="text-2xl font-bold mb-4 text-gray-800">User Profile</h1>
 
+        <Avatar />
         <form
           onSubmit={(e) => e.preventDefault()}
           className="flex flex-col gap-4"
-          enctype="multipart/form-data"
+          encType="multipart/form-data"
         >
           <div className="flex flex-col">
             <label
