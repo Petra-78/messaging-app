@@ -16,7 +16,7 @@ export default function MessageList({
   }
 
   return (
-    <div className="flex-1 min-h-0 overflow-y-auto mb-4 flex flex-col gap-2">
+    <div className="flex-1 min-h-0 overflow-y-auto mb-4 flex flex-col gap-4">
       {messages.length === 0 && (
         <div className="text-gray-500 text-sm text-center mt-4">
           No messages yet.

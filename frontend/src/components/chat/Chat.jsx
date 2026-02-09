@@ -20,17 +20,19 @@ export default function Chat({ selectedUser }) {
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
+    debugger;
     if (!selectedUser || !token) return;
+    let URL = `https://messaging-app-production-2362.up.railway.app/messages/${selectedUser.id}`;
+    if (selectedUser === "global") {
+      URL = `https://messaging-app-production-2362.up.railway.app/messages/${selectedUser}`;
+    }
 
     async function getMessages() {
       setLoading(true);
       try {
-        const res = await fetch(
-          `https://messaging-app-production-2362.up.railway.app/messages/${selectedUser.id}`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          },
-        );
+        const res = await fetch(URL, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
 
         const data = await res.json();
         if (!res.ok) throw new Error(data.message);
@@ -56,7 +58,12 @@ export default function Chat({ selectedUser }) {
 
     try {
       const formData = new FormData();
-      formData.append("receiverId", selectedUser.id);
+      if (selectedUser === "global") {
+        formData.append("receiverId", selectedUser);
+      } else {
+        formData.append("receiverId", selectedUser.id);
+      }
+
       if (content) formData.append("content", content);
       if (imageFile) formData.append("file", imageFile);
 

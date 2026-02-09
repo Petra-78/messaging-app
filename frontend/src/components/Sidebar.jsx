@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../context/authContext";
+import GlobalChat from "./chat/GlobalChat";
 
 export default function Sidebar({ selectedUser, setSelectedUser }) {
   const { token } = useAuth();
@@ -70,6 +71,7 @@ export default function Sidebar({ selectedUser, setSelectedUser }) {
 
       {!loading && !error && filteredUsers.length > 0 && (
         <ul className="flex flex-col gap-2 overflow-y-auto flex-1 min-h-0">
+          <GlobalChat setSelectedUser={setSelectedUser} />
           {filteredUsers.map((u) => (
             <li key={u.id} className="flex">
               <button
