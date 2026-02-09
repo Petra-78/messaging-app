@@ -56,6 +56,7 @@ export const getMessages = async (req, res) => {
           select: {
             id: true,
             username: true,
+            avatarUrl: true,
           },
         },
       },
@@ -71,19 +72,26 @@ export const getMessages = async (req, res) => {
 export async function postMessage(req, res) {
   const { userId } = req.user;
   const { receiverId, content } = req.body;
-  debugger;
+
   try {
-    let chat = await prisma.chat.findFirst({
-      where: {
-        chatUser: {
-          every: {
-            userId: {
-              in: [userId, Number(receiverId)],
+    let chat;
+    if (receiverId === "global") {
+      chat = await prisma.chat.findFirst({
+        where: { id: 3 },
+      });
+    } else {
+      chat = await prisma.chat.findFirst({
+        where: {
+          chatUser: {
+            every: {
+              userId: {
+                in: [userId, Number(receiverId)],
+              },
             },
           },
         },
-      },
-    });
+      });
+    }
 
     if (!chat) {
       chat = await prisma.chat.create({
@@ -121,6 +129,7 @@ export async function postMessage(req, res) {
           select: {
             id: true,
             username: true,
+            avatarUrl: true,
           },
         },
       },
