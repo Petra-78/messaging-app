@@ -3,7 +3,29 @@ import cloudinary from "../config/cloudinary.js";
 
 export const getMessages = async (req, res) => {
   const { userId } = req.user;
-  const otherUserId = Number(req.params.otherUserId);
+  const otherUserId = req.params.otherUserId;
+
+  if (otherUserId === "global") {
+    const messages = await prisma.message.findMany({
+      where: {
+        chatId: 3,
+      },
+      orderBy: {
+        createdAt: "asc",
+      },
+      include: {
+        sender: {
+          select: {
+            id: true,
+            username: true,
+            avatarUrl: true,
+          },
+        },
+      },
+    });
+
+    return res.json(messages);
+  }
 
   try {
     const chat = await prisma.chat.findFirst({
@@ -11,7 +33,7 @@ export const getMessages = async (req, res) => {
         chatUser: {
           every: {
             userId: {
-              in: [userId, otherUserId],
+              in: [userId, Number(otherUserId)],
             },
           },
         },
