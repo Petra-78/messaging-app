@@ -81,11 +81,27 @@ export async function postSignup(req, res) {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    await prisma.user.create({
+    const user = await prisma.user.create({
       data: {
         email,
         username,
         password: hashedPassword,
+      },
+    });
+
+    const GLOBAL_CHAT_ID = 3;
+
+    await prisma.chatUser.upsert({
+      where: {
+        chatId_userId: {
+          chatId: GLOBAL_CHAT_ID,
+          userId: user.id,
+        },
+      },
+      update: {},
+      create: {
+        chatId: GLOBAL_CHAT_ID,
+        userId: user.id,
       },
     });
 
