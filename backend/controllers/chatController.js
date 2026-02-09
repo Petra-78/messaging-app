@@ -67,7 +67,7 @@ export async function postMessage(req, res) {
       chat = await prisma.chat.create({
         data: {
           chatUser: {
-            create: [{ userId }, { userId: receiverId }],
+            create: [{ userId }, { userId: Number(receiverId) }],
           },
         },
       });
