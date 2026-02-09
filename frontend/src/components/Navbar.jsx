@@ -20,12 +20,12 @@ export default function Navbar({
   };
   return (
     <header className="bg-white shadow-md px-6 py-4 flex items-center justify-between">
-      <div className="flex gap-2">
+      <div className="flex gap-2 items-center">
         <img className="h-8 w-8" src="/earth.png" alt="Earth logo" />
         <Link
           to="/"
           onClick={() => setSelectedUser(null)}
-          className="text-2xl font-bold text-blue-600 hover:text-blue-800 transition-colors"
+          className="md:text-2xl font-bold text-blue-600 hover:text-blue-800 transition-colors"
         >
           World Talk
         </Link>
@@ -36,7 +36,7 @@ export default function Navbar({
           <>
             <button
               onClick={() => setShowUserInfo(!showUserInfo)}
-              className="flex items-center gap-4 px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition"
+              className="flex items-center gap-4 px-2 py-1 md:px-4 md:py-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition"
             >
               <img
                 className="w-8 h-8 object-cover rounded-full"
@@ -48,7 +48,7 @@ export default function Navbar({
 
             <button
               onClick={handleLogout}
-              className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
+              className="px-2 md:px-4 md:py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
             >
               <FontAwesomeIcon icon={faArrowRightFromBracket} />
             </button>

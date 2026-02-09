@@ -44,8 +44,10 @@ export default function Sidebar({ selectedUser, setSelectedUser }) {
   );
 
   return (
-    <div className="w-64 bg-white shadow-md rounded-lg p-4 flex flex-col h-full">
-      <h2 className="text-xl font-semibold mb-4 text-gray-800">Users</h2>
+    <div className="w-30 sm:w-56  md:w-64 bg-white shadow-md rounded-lg p-2 md:p-4 flex flex-col h-full">
+      <h2 className="text-xl font-semibold my-4 text-gray-800 truncate ">
+        Users
+      </h2>
 
       <input
         type="text"
@@ -53,19 +55,21 @@ export default function Sidebar({ selectedUser, setSelectedUser }) {
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         disabled={loading}
-        className="mb-4 px-3 py-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100"
+        className="mb-4 md:px-3 md:py-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 text-sm p-1"
       />
 
-      {loading && <p className="text-gray-500 text-sm mb-2">Loading...</p>}
+      {loading && (
+        <p className="text-gray-500 text-sm mb-2 truncate">Loading...</p>
+      )}
       {!loading && error && (
-        <p className="text-red-500 text-sm mb-2">{error}</p>
+        <p className="text-red-500 text-sm mb-2 truncate">{error}</p>
       )}
       {!loading && !error && filteredUsers.length === 0 && (
-        <p className="text-gray-500 text-sm mb-2">No users found</p>
+        <p className="text-gray-500 text-sm mb-2 truncate">No users found</p>
       )}
 
       {!loading && !error && filteredUsers.length > 0 && (
-        <ul className="flex flex-col gap-2 overflow-y-auto max-h-80">
+        <ul className="flex flex-col gap-2 overflow-y-auto flex-1 min-h-0">
           {filteredUsers.map((u) => (
             <li key={u.id} className="flex">
               <button
@@ -76,14 +80,14 @@ export default function Sidebar({ selectedUser, setSelectedUser }) {
                     avatarUrl: u.avatarUrl,
                   })
                 }
-                className="flex items-center justify-baseline gap-4 w-full text-left px-3 py-2 rounded-lg hover:bg-blue-100 transition-colors"
+                className="flex items-center justify-start gap-2 sm:gap-4 w-full text-left px-2 sm:px-3 py-2 rounded-lg hover:bg-blue-100 transition-colors truncate"
               >
                 <img
                   src={u.avatarUrl || "/placeholder.png"}
                   alt="User profile"
-                  className="h-8 w-8 rounded-full object-cover"
+                  className="h-6 w-6 sm:h-8 sm:w-8 rounded-full object-cover shrink-0"
                 />
-                {u.username}
+                <span className="truncate">{u.username}</span>
               </button>
             </li>
           ))}

@@ -85,7 +85,7 @@ export default function Chat({ selectedUser }) {
 
   if (!selectedUser)
     return (
-      <div className="flex h-full flex-col items-center justify-center gap-2 text-gray-500">
+      <div className="flex h-full w-full flex-col items-center justify-center gap-2 text-gray-500">
         <span className="text-lg font-medium">
           Choose a user to start chatting
         </span>
@@ -93,7 +93,7 @@ export default function Chat({ selectedUser }) {
     );
 
   return (
-    <div className="flex flex-col flex-1 bg-gray-50 rounded-lg shadow-md p-4 h-full">
+    <div className="flex flex-col flex-1 min-h-0 bg-gray-50 rounded-lg shadow-md p-2 sm:p-4">
       <ChatHeader user={selectedUser} />
 
       <MessageList
@@ -101,6 +101,7 @@ export default function Chat({ selectedUser }) {
         currentUser={user}
         loading={loading}
         endRef={messagesEndRef}
+        className="flex-1 min-h-0 overflow-y-auto px-2 sm:px-4 py-2 space-y-2"
       />
 
       {imagePreview && (
@@ -124,6 +125,7 @@ export default function Chat({ selectedUser }) {
           setImagePreview(URL.createObjectURL(file));
         }}
         sending={sending}
+        className="flex items-center gap-2 p-2 sm:p-3 border-t bg-white shrink-0"
       />
     </div>
   );

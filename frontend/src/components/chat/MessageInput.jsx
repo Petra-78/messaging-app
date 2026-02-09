@@ -34,7 +34,7 @@ export default function MessageInput({
       <button
         type="submit"
         disabled={sending}
-        className=" p-3 bg-blue-600 text-white rounded-full flex items-center justify-center hover:bg-blue-700 transition"
+        className=" p-2 text-sm  md:p-3 md:text-md bg-blue-600 text-white rounded-full flex items-center justify-center hover:bg-blue-700 transition"
       >
         {sending ? (
           <FontAwesomeIcon icon={faSpinner} spin />
