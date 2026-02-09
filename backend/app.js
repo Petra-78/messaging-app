@@ -4,7 +4,14 @@ import "dotenv/config";
 
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: ["https://world-talk.netlify.app/", "http://localhost:5173"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  }),
+);
 
 app.use(express.json());
 
